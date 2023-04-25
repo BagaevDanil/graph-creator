@@ -10,6 +10,7 @@
 #include <QtMath>
 #include <vector>
 #include <QString>
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +24,7 @@ public:
     static const float RADIUS;
     static const int SCREEN_WIDTH;
     static const int SCREEN_HEIGHT;
+    static const int ABSENCE_BORDER_SCREEN;
 
 private:
     int _NumVertex = 0;

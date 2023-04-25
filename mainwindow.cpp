@@ -3,7 +3,8 @@
 
 const int MainWindow::SCREEN_WIDTH = 600;
 const int MainWindow::SCREEN_HEIGHT = 600;
-const float MainWindow::RADIUS = (fmin(SCREEN_HEIGHT, SCREEN_WIDTH) - 100) / 2;
+const int MainWindow::ABSENCE_BORDER_SCREEN = 30;
+const float MainWindow::RADIUS = fmin(SCREEN_HEIGHT, SCREEN_WIDTH)/2  - ABSENCE_BORDER_SCREEN;
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,18 +20,20 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::SetVerticesAroundCircle() {
     for (auto& vertex : _ArrVertex) {
-        delete vertex;
+        //delete vertex;
     }
     _ArrVertex.clear();
     _Scene->clear();
-
+    // _Scene->destroyItemGroup(_GroupGraph);
+    //_Scene->removeItem(_GroupGraph);
     if (_NumVertex <= 0) {
         return;
     }
+
     float angelStep = 360.0 / _NumVertex;
 
     int ind = 1;
-    for (float angel = 0; angel < 360.0; angel += angelStep) {
+    for (float angel = 0; angel < 359.0; angel += angelStep) {
         float cur_angel = angel;
         int quarter = 0;
         while (cur_angel >= 90) {
