@@ -14,11 +14,10 @@ class TVertex : public QObject, public QGraphicsItem
 public:
     explicit TVertex(QObject *parent = nullptr);
     ~TVertex();
-    // void SetRect(float x, float y, float w, float h);
-    void SetRect(QRectF rect);
 
 signals:
     void ClickVertex();
+    void MoveVertex();
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

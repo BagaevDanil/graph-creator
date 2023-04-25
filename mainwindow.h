@@ -6,7 +6,9 @@
 #include <QMessageBox>
 #include <QGraphicsItem>
 #include "vertex.h"
+#include "edge.h"
 #include <QtMath>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +21,7 @@ class MainWindow : public QMainWindow
 private:
     int _NumVertex = 0;
     float _Radius = 200;
+    std::vector<TVertex*> _ArrVertex;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -27,8 +30,8 @@ public:
 
 private slots:
     void on_pushButtonMinus_clicked();
-
     void on_pushButtonPlus_clicked();
+    void on_pushButtonAddEdge_clicked();
 
 private:
     Ui::MainWindow* ui;
