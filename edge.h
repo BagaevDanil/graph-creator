@@ -12,6 +12,11 @@
 class TEdge : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+
+public:
+    static const int ARROW_ANGLE;
+    static const int ARROW_LEN;
+
 public:
     TEdge(TVertex *firstVertex, TVertex *secondVertex, QObject *parent = nullptr);
 

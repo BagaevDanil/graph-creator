@@ -1,13 +1,13 @@
 #include "edge.h"
 #include <QtMath>
 
-const int ARROW_ANGLE = 30;
-const int ARROW_LEN = 15;
+const int TEdge::ARROW_ANGLE = 30;
+const int TEdge::ARROW_LEN = 15;
 
 TEdge::TEdge(TVertex *firstVertex, TVertex *secondVertex, QObject *parent) : QObject{parent}, _FirstVertex(firstVertex), _SecondVertex(secondVertex)
 {
-    connect(_FirstVertex,SIGNAL(MoveVertex()),this,SLOT(MouseMoveEvent()));
-    connect(_SecondVertex,SIGNAL(MoveVertex()),this,SLOT(MouseMoveEvent()));
+    connect(_FirstVertex, SIGNAL(MoveVertex()), this, SLOT(MouseMoveEvent()));
+    connect(_SecondVertex, SIGNAL(MoveVertex()), this, SLOT(MouseMoveEvent()));
 }
 
 QRectF TEdge::boundingRect() const {
@@ -19,46 +19,51 @@ QRectF TEdge::boundingRect() const {
 }
 
 void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
+    /*
+     * TODO:
+     * 1) Сделать, чтобы стрелки не шли до центра врешины, а кончались нат гранях.
+     *    Либо как-то иначе поправить это, если с геометрией будет тяжко;
+     */
+
     const QPointF& pointFirst = _FirstVertex->pos();
     const QPointF& pointSecond = _SecondVertex->pos();
 
-    // painter->setPen(QPen(QBrush(QColor(64, 169, 201)), 3));
-    painter->setPen(QPen(Qt::black, 2));
+    painter->setPen(QPen(Qt::black, 1.7));
     painter->drawLine(pointFirst.x(), pointFirst.y(), pointSecond.x(), pointSecond.y());
 
     int w = qAbs(pointFirst.x() - pointSecond.x());
     int h = qAbs(pointFirst.y() - pointSecond.y());
     float angelArow = qDegreesToRadians(ARROW_ANGLE);
+
     float gamma1 = qAcos(w / qSqrt(h*h + w*w)) - angelArow;
     float gamma2 = qDegreesToRadians(90) - qAcos(w / qSqrt(h*h + w*w)) - angelArow;
-
     float y1 = ARROW_LEN * qSin(gamma1);
     float x1 = ARROW_LEN * qCos(gamma1);
     float x2 = ARROW_LEN * qSin(gamma2);
     float y2 = ARROW_LEN * qCos(gamma2);
 
-    if (pointFirst.x() > pointSecond.x()) { // left
-        if (pointFirst.y() > pointSecond.y()) { // up
+    if (pointFirst.x() > pointSecond.x()) {
+        if (pointFirst.y() > pointSecond.y()) {
             x1 *= 1;
             y1 *= 1;
             x2 *= 1;
             y2 *= 1;
         }
-        else { // bottom
+        else {
             x1 *= 1;
             y1 *= -1;
             x2 *= 1;
             y2 *= -1;
         }
     }
-    else { // right
-        if (pointFirst.y() > pointSecond.y()) { // up
+    else {
+        if (pointFirst.y() > pointSecond.y()) {
             x1 *= -1;
             y1 *= 1;
             x2 *= -1;
             y2 *= 1;
         }
-        else { // bottom
+        else {
             x1 *= -1;
             y1 *= -1;
             x2 *= -1;
@@ -71,5 +76,11 @@ void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
 }
 
 void TEdge::MouseMoveEvent() {
+    /*
+     * TODO:
+     * 1) Костыль на коленке.
+     *    Научиться обновлять(перерисовывать) объект вслед за вершинами.
+     */
+
     this->setPos(this->pos().rx() + 0.0001, this->pos().ry() + 0.0001);
 }

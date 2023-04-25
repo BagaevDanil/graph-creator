@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-const int SCREEN_WIDTH = 494;
-const int SCREEN_HEIGHT = 494;
+const int MainWindow::SCREEN_WIDTH = 600;
+const int MainWindow::SCREEN_HEIGHT = 600;
+const float MainWindow::RADIUS = (fmin(SCREEN_HEIGHT, SCREEN_WIDTH) - 100) / 2;
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,25 +38,24 @@ void MainWindow::SetVerticesAroundCircle() {
             quarter++;
         }
 
-        int xZ = 1, yZ = 1;
+        int xSign = 1, ySign = 1;
         if (quarter == 0) {
-            xZ *= -1;
+            xSign *= -1;
         }
         if (quarter == 1) {
-            yZ *= -1;
-            xZ *= -1;
+            ySign *= -1;
+            xSign *= -1;
             cur_angel = 90 - cur_angel;
         }
         if (quarter == 2) {
-            yZ *= -1;
+            ySign *= -1;
         }
         if (quarter == 3) {
             cur_angel = 90 - cur_angel;
         }
+        float x = xSign * RADIUS * qSin(qDegreesToRadians(cur_angel)) + SCREEN_WIDTH/2;
+        float y = ySign * RADIUS * qCos(qDegreesToRadians(cur_angel)) + SCREEN_HEIGHT/2;
 
-        float x = xZ * _Radius * qSin(qDegreesToRadians(cur_angel)) + SCREEN_WIDTH/2;
-        float y = yZ * _Radius * qCos(qDegreesToRadians(cur_angel)) + SCREEN_HEIGHT/2;
-        // qDebug() << angel << " " << cur_angel << " |" <<  x << "  " << y << " = " << (x*x + y*y);
         auto* vertex = new TVertex(QString::number(ind++));
         vertex->setPos(x, y);
         _ArrVertex.push_back(vertex);
@@ -89,10 +90,6 @@ void MainWindow::on_pushButtonAddEdge_clicked()
     while (rand1 == rand2) {
         rand2 = rand() % _ArrVertex.size();
     }
-
-    const QPointF& pointFirst = _ArrVertex[rand1]->pos();
-    const QPointF& pointSecond = _ArrVertex[rand2]->pos();
-    // qDebug() << pointFirst.x() << " " << pointFirst.y() << " | " << pointSecond.x() << " " << pointSecond.y();
 
     TEdge* edge = new TEdge(_ArrVertex[rand1], _ArrVertex[rand2]);
     _Scene->addItem(edge);

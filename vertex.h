@@ -11,6 +11,11 @@
 class TVertex : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+
+public:
+    static const int FONT_SIZE;
+    static const int VERTEX_RADIUS;
+
 public:
     explicit TVertex(QString name, QObject *parent = nullptr);
     ~TVertex();
@@ -29,8 +34,8 @@ private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-    QRectF _Rect;
     QString _Name;
+    QRectF _Rect;
 
 };
 

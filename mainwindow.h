@@ -19,9 +19,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+public:
+    static const float RADIUS;
+    static const int SCREEN_WIDTH;
+    static const int SCREEN_HEIGHT;
+
 private:
     int _NumVertex = 0;
-    float _Radius = 200;
     std::vector<TVertex*> _ArrVertex;
 
 public:
