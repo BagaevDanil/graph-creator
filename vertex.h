@@ -12,7 +12,7 @@ class TVertex : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit TVertex(QObject *parent = nullptr);
+    explicit TVertex(QString name, QObject *parent = nullptr);
     ~TVertex();
 
 signals:
@@ -30,6 +30,7 @@ private:
 
 private:
     QRectF _Rect;
+    QString _Name;
 
 };
 

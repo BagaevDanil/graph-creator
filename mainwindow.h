@@ -9,6 +9,7 @@
 #include "edge.h"
 #include <QtMath>
 #include <vector>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

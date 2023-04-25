@@ -27,7 +27,7 @@ void MainWindow::SetVerticesAroundCircle() {
     }
     float angelStep = 360.0 / _NumVertex;
 
-
+    int ind = 1;
     for (float angel = 0; angel < 360.0; angel += angelStep) {
         float cur_angel = angel;
         int quarter = 0;
@@ -55,7 +55,7 @@ void MainWindow::SetVerticesAroundCircle() {
         float x = xZ * _Radius * qSin(qDegreesToRadians(cur_angel)) + SCREEN_WIDTH/2;
         float y = yZ * _Radius * qCos(qDegreesToRadians(cur_angel)) + SCREEN_HEIGHT/2;
         // qDebug() << angel << " " << cur_angel << " |" <<  x << "  " << y << " = " << (x*x + y*y);
-        auto* vertex = new TVertex();
+        auto* vertex = new TVertex(QString::number(ind++));
         vertex->setPos(x, y);
         _ArrVertex.push_back(vertex);
         _Scene->addItem(vertex);

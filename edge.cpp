@@ -21,6 +21,7 @@ QRectF TEdge::boundingRect() const {
 void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
     const QPointF& pointFirst = _FirstVertex->pos();
     const QPointF& pointSecond = _SecondVertex->pos();
+
     // painter->setPen(QPen(QBrush(QColor(64, 169, 201)), 3));
     painter->setPen(QPen(Qt::black, 2));
     painter->drawLine(pointFirst.x(), pointFirst.y(), pointSecond.x(), pointSecond.y());
