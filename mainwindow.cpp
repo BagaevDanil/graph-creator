@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
 
 const int MainWindow::SCREEN_WIDTH = 600;
 const int MainWindow::SCREEN_HEIGHT = 600;
@@ -10,6 +11,7 @@ const float MainWindow::RADIUS = fmin(SCREEN_HEIGHT, SCREEN_WIDTH)/2  - ABSENCE_
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , _Graph(nullptr)
 {
     ui->setupUi(this);
     _Scene = new QGraphicsScene(this);
@@ -18,83 +20,47 @@ MainWindow::MainWindow(QWidget *parent)
     _Scene->setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-void MainWindow::SetVerticesAroundCircle() {
-    for (auto& vertex : _ArrVertex) {
-        //delete vertex;
-    }
-    _ArrVertex.clear();
-    _Scene->clear();
-    // _Scene->destroyItemGroup(_GroupGraph);
-    //_Scene->removeItem(_GroupGraph);
-    if (_NumVertex <= 0) {
-        return;
-    }
-
-    float angelStep = 360.0 / _NumVertex;
-
-    int ind = 1;
-    for (float angel = 0; angel < 359.0; angel += angelStep) {
-        float cur_angel = angel;
-        int quarter = 0;
-        while (cur_angel >= 90) {
-            cur_angel -= 90;
-            quarter++;
-        }
-
-        int xSign = 1, ySign = 1;
-        if (quarter == 0) {
-            xSign *= -1;
-        }
-        if (quarter == 1) {
-            ySign *= -1;
-            xSign *= -1;
-            cur_angel = 90 - cur_angel;
-        }
-        if (quarter == 2) {
-            ySign *= -1;
-        }
-        if (quarter == 3) {
-            cur_angel = 90 - cur_angel;
-        }
-        float x = xSign * RADIUS * qSin(qDegreesToRadians(cur_angel)) + SCREEN_WIDTH/2;
-        float y = ySign * RADIUS * qCos(qDegreesToRadians(cur_angel)) + SCREEN_HEIGHT/2;
-
-        auto* vertex = new TVertex(QString::number(ind++));
-        vertex->setPos(x, y);
-        _ArrVertex.push_back(vertex);
-        _Scene->addItem(vertex);
-    }
-}
-
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
-void MainWindow::on_pushButtonMinus_clicked()
+void MainWindow::on_pushButtonAddRandomGraph_clicked()
 {
-    _NumVertex--;
-    SetVerticesAroundCircle();
-}
-
-
-void MainWindow::on_pushButtonPlus_clicked()
-{
-    _NumVertex++;
-    SetVerticesAroundCircle();
-}
-
-
-void MainWindow::on_pushButtonAddEdge_clicked()
-{
-    int rand1 = rand() % _ArrVertex.size();
-    int rand2 = rand() % _ArrVertex.size();
-    while (rand1 == rand2) {
-        rand2 = rand() % _ArrVertex.size();
+    if (_Graph != nullptr) {
+        delete _Graph;
     }
 
-    TEdge* edge = new TEdge(_ArrVertex[rand1], _ArrVertex[rand2]);
-    _Scene->addItem(edge);
+    bool okInpusVertex, okInpusEdges;
+    int numVertex = ui->lineEditNumVertex->text().toInt(&okInpusVertex);
+    int numEdge = ui->lineEditNumEdge->text().toInt(&okInpusEdges);
+    if (!okInpusVertex || !okInpusEdges) {
+        QMessageBox::warning(this, "Ошибка", "Некорректные введенные данные!");
+        return;
+    }
+    _Graph = new TGraph(numVertex, numEdge);
+    _Graph->ArrangeCircle(RADIUS, SCREEN_WIDTH, SCREEN_HEIGHT);
+    _Graph->AddToScene(_Scene);
+}
+
+
+void MainWindow::on_pushButtonArrangeCircle_clicked()
+{
+    if (_Graph == nullptr) {
+        QMessageBox::warning(this, "Ошибка", "Грaф не создан!");
+        return;
+    }
+    _Graph->ArrangeCircle(RADIUS, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+
+void MainWindow::on_pushButtonClearWorkArea_pressed()
+{
+    if (_Graph == nullptr) {
+        QMessageBox::warning(this, "Ошибка", "Рабочая область пуста!");
+        return;
+    }
+    delete _Graph;
+    _Graph = nullptr;
 }
 

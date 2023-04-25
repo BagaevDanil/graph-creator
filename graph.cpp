@@ -31,7 +31,64 @@ TGraph::TGraph(int numVertex, int numEdge)
     }
 }
 
-void TGraph::ArrangeCircle()
+TGraph::~TGraph()
 {
+    for (auto& vertex : _ArrVertex) {
+        delete vertex;
+    }
+    for (auto& edge : _ArrEdge) {
+        delete edge;
+    }
+}
 
+void TGraph::AddToScene(QGraphicsScene* scene) {
+    for (auto& vertex : _ArrVertex) {
+        scene->addItem(vertex);
+    }
+    for (auto& edge : _ArrEdge) {
+        scene->addItem(edge);
+    }
+}
+
+void TGraph::ArrangeCircle(float radius, int screenWidth, int screenHeight)
+{
+    float angelStep = 360.0 / _ArrVertex.size();
+    float angel = 0;
+    int quarter = 0;
+    for (int i = 0; i < (int)_ArrVertex.size(); i++) {
+        while (angel >= 90) {
+            angel -= 90;
+            quarter++;
+        }
+
+        int curAngel = angel;
+        int xSign = 1, ySign = 1;
+        if (quarter == 0) {
+            xSign *= -1;
+        }
+        if (quarter == 1) {
+            ySign *= -1;
+            xSign *= -1;
+            curAngel = 90 - curAngel;
+        }
+        if (quarter == 2) {
+            ySign *= -1;
+        }
+        if (quarter == 3) {
+            curAngel = 90 - curAngel;
+        }
+        float x = xSign * radius * qSin(qDegreesToRadians(curAngel)) + screenWidth/2;
+        float y = ySign * radius * qCos(qDegreesToRadians(curAngel)) + screenHeight/2;
+        _ArrVertex[i]->setPos(x, y);
+
+        angel += angelStep;
+    }
+
+    /*
+     * TODO:
+     * 1) Костыль с обновлением ребер на сцене
+     */
+    for (auto& edge : _ArrEdge) {
+        edge->setPos(edge->pos() + QPointF(0.0001, 0.0001));
+    }
 }

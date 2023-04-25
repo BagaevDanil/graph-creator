@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <exception>
+#include <QGraphicsScene>
+#include <QDebug>
 #include "vertex.h"
 #include "edge.h"
 
@@ -12,7 +14,9 @@ class TGraph
 public:
     TGraph(QString pathMatrix);
     TGraph(int numVertex, int numEdge);
-    void ArrangeCircle();
+    ~TGraph();
+    void ArrangeCircle(float radius, int screenWidth, int screenHeight);
+    void AddToScene(QGraphicsScene* scene);
 
 private:
     std::vector<TVertex*> _ArrVertex;

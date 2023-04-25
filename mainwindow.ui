@@ -24,50 +24,11 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonMinus">
+   <widget class="QLineEdit" name="lineEditNumVertex">
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>10</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>-</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonPlus">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>10</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>+</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonAddEdge">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>80</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add random edge</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>200</y>
+      <y>40</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -80,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>180</y>
+      <y>20</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -89,11 +50,11 @@
      <string>Кол-во врешин</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="lineEditNumEdge">
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>260</y>
+      <y>100</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -106,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>240</y>
+      <y>80</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -115,17 +76,43 @@
      <string>Кол-во ребер</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonAddEdge_2">
+   <widget class="QPushButton" name="pushButtonAddRandomGraph">
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>300</y>
+      <y>140</y>
       <width>131</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Add random graph</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonArrangeCircle">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>190</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Arrange in a circle</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClearWorkArea">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>240</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear the work area</string>
     </property>
    </widget>
   </widget>

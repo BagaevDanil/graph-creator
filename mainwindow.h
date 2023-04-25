@@ -27,18 +27,16 @@ public:
     static const int ABSENCE_BORDER_SCREEN;
 
 private:
-    int _NumVertex = 0;
-    std::vector<TVertex*> _ArrVertex;
+    TGraph* _Graph;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void SetVerticesAroundCircle();
 
 private slots:
-    void on_pushButtonMinus_clicked();
-    void on_pushButtonPlus_clicked();
-    void on_pushButtonAddEdge_clicked();
+    void on_pushButtonAddRandomGraph_clicked();
+    void on_pushButtonArrangeCircle_clicked();
+    void on_pushButtonClearWorkArea_pressed();
 
 private:
     Ui::MainWindow* ui;
