@@ -1,7 +1,7 @@
 #include "vertex.h"
 #include <QColor>
 
-TVertex::TVertex(QObject *parent) : QObject{parent}, QGraphicsItem(), _Rect(QRectF(-20, -20, 20, 20)) {}
+TVertex::TVertex(QObject *parent) : QObject{parent}, QGraphicsItem(), _Rect(QRectF(-10, -10, 20, 20)) {}
 
 TVertex::~TVertex(){}
 

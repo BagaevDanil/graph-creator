@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+const int SCREEN_WIDTH = 494;
+const int SCREEN_HEIGHT = 494;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -9,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     _Scene = new QGraphicsScene(this);
 
     ui->graphicsView->setScene(_Scene);
-    _Scene->setSceneRect(0, 0, 494, 494);
+    _Scene->setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void MainWindow::SetVerticesAroundCircle() {
@@ -49,8 +52,8 @@ void MainWindow::SetVerticesAroundCircle() {
             cur_angel = 90 - cur_angel;
         }
 
-        float x = xZ * _Radius * qSin(qDegreesToRadians(cur_angel)) + 247;
-        float y = yZ * _Radius * qCos(qDegreesToRadians(cur_angel)) + 247;
+        float x = xZ * _Radius * qSin(qDegreesToRadians(cur_angel)) + SCREEN_WIDTH/2;
+        float y = yZ * _Radius * qCos(qDegreesToRadians(cur_angel)) + SCREEN_HEIGHT/2;
         // qDebug() << angel << " " << cur_angel << " |" <<  x << "  " << y << " = " << (x*x + y*y);
         auto* vertex = new TVertex();
         vertex->setPos(x, y);
@@ -89,7 +92,7 @@ void MainWindow::on_pushButtonAddEdge_clicked()
 
     const QPointF& pointFirst = _ArrVertex[rand1]->pos();
     const QPointF& pointSecond = _ArrVertex[rand2]->pos();
-    qDebug() << pointFirst.x() << " " << pointFirst.y() << " | " << pointSecond.x() << " " << pointSecond.y();
+    // qDebug() << pointFirst.x() << " " << pointFirst.y() << " | " << pointSecond.x() << " " << pointSecond.y();
 
     TEdge* edge = new TEdge(_ArrVertex[rand1], _ArrVertex[rand2]);
     _Scene->addItem(edge);
