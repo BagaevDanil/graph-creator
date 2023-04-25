@@ -5,6 +5,7 @@
 #include <exception>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <vector>
 #include "vertex.h"
 #include "edge.h"
 

@@ -29,6 +29,7 @@ void MainWindow::on_pushButtonAddRandomGraph_clicked()
 {
     if (_Graph != nullptr) {
         delete _Graph;
+        _Graph = nullptr;
     }
 
     bool okInpusVertex, okInpusEdges;
@@ -36,6 +37,10 @@ void MainWindow::on_pushButtonAddRandomGraph_clicked()
     int numEdge = ui->lineEditNumEdge->text().toInt(&okInpusEdges);
     if (!okInpusVertex || !okInpusEdges) {
         QMessageBox::warning(this, "Ошибка", "Некорректные введенные данные!");
+        return;
+    }
+    if (numVertex < 0 || numEdge < 0 || numEdge > numVertex*(numVertex-1)) {
+        QMessageBox::warning(this, "Ошибка", "Некорректный диапазон введенных данных!");
         return;
     }
     _Graph = new TGraph(numVertex, numEdge);

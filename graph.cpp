@@ -1,4 +1,6 @@
 #include "graph.h"
+#include <unordered_set>
+#include <set>
 
 TGraph::TGraph(QString /*pathMatrix*/)
 {
@@ -13,7 +15,7 @@ TGraph::TGraph(int numVertex, int numEdge)
     if (numVertex < 0) {
         throw std::logic_error("Incorrect number of vertices");
     }
-    if (numEdge < 0 || numEdge > numVertex * (numVertex-1) / 2) {
+    if (numEdge < 0 || numEdge > numVertex * (numVertex-1)) {
         throw std::logic_error("Incorrect number of edges");
     }
 
@@ -21,12 +23,15 @@ TGraph::TGraph(int numVertex, int numEdge)
         _ArrVertex.push_back(new TVertex(QString::number(i + 1)));
     }
 
-    for (int i = 0; i < numVertex; ++i) {
+    std::set<std::pair<int, int>> usedEdges;
+    for (int i = 0; i < numEdge; ++i) {
         int rand1 = std::rand() % _ArrVertex.size();
         int rand2 = std::rand() % _ArrVertex.size();
-        while (rand1 == rand2) {
+        while (rand1 == rand2 || usedEdges.find({rand1, rand2}) != usedEdges.end()) {
+            rand1 = std::rand() % _ArrVertex.size();
             rand2 = std::rand() % _ArrVertex.size();
         }
+        usedEdges.insert({rand1, rand2});
         _ArrEdge.push_back(new TEdge(_ArrVertex[rand1], _ArrVertex[rand2]));
     }
 }
