@@ -171,7 +171,7 @@
       <x>630</x>
       <y>310</y>
       <width>201</width>
-      <height>101</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
@@ -201,6 +201,19 @@
        </property>
        <property name="text">
         <string>Очистить рабочую область</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonClearWorkArea_3">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Алгоритм Крускала</string>
        </property>
       </widget>
      </item>

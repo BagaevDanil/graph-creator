@@ -3,6 +3,7 @@
 
 const int TEdge::ARROW_ANGLE = 30;
 const int TEdge::ARROW_LEN = 15;
+const int TEdge::INDENTATION = 15;
 
 TEdge::TEdge(TVertex *firstVertex, TVertex *secondVertex, QObject *parent) : QObject{parent}, _FirstVertex(firstVertex), _SecondVertex(secondVertex)
 {
@@ -19,60 +20,80 @@ QRectF TEdge::boundingRect() const {
 }
 
 void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
-    /*
-     * TODO:
-     * 1) Сделать, чтобы стрелки не шли до центра врешины, а кончались нат гранях.
-     *    Либо как-то иначе поправить это, если с геометрией будет тяжко;
-     */
-
     const QPointF& pointFirst = _FirstVertex->pos();
     const QPointF& pointSecond = _SecondVertex->pos();
 
     painter->setPen(QPen(Qt::black, 1.7));
-    painter->drawLine(pointFirst.x(), pointFirst.y(), pointSecond.x(), pointSecond.y());
 
-    int w = qAbs(pointFirst.x() - pointSecond.x());
-    int h = qAbs(pointFirst.y() - pointSecond.y());
-    float angelArow = qDegreesToRadians(ARROW_ANGLE);
+    int edgeW = qAbs(pointFirst.x() - pointSecond.x());
+    int edgeH = qAbs(pointFirst.y() - pointSecond.y());
 
-    float gamma1 = qAcos(w / qSqrt(h*h + w*w)) - angelArow;
-    float gamma2 = qDegreesToRadians(90) - qAcos(w / qSqrt(h*h + w*w)) - angelArow;
-    float y1 = ARROW_LEN * qSin(gamma1);
-    float x1 = ARROW_LEN * qCos(gamma1);
-    float x2 = ARROW_LEN * qSin(gamma2);
-    float y2 = ARROW_LEN * qCos(gamma2);
+    float gamma = qAcos(edgeW / qSqrt(edgeH*edgeH + edgeW*edgeW));
+    float indentationX = INDENTATION * qCos(gamma);
+    float indentationY = INDENTATION * qSin(gamma);
+    QPointF pointFirstCorrected = pointFirst;
+    QPointF pointSecondCorrected = pointSecond;
+
+    float gamma1 = qAcos(edgeW / qSqrt(edgeH*edgeH + edgeW*edgeW)) - qDegreesToRadians(ARROW_ANGLE);
+    float arrowY1 = ARROW_LEN * qSin(gamma1);
+    float arrowX1 = ARROW_LEN * qCos(gamma1);
+
+    float gamma2 = qDegreesToRadians(90) - qAcos(edgeW / qSqrt(edgeH*edgeH + edgeW*edgeW)) - qDegreesToRadians(ARROW_ANGLE);
+    float arrowX2 = ARROW_LEN * qSin(gamma2);
+    float arrowY2 = ARROW_LEN * qCos(gamma2);
 
     if (pointFirst.x() > pointSecond.x()) {
-        if (pointFirst.y() > pointSecond.y()) {
-            x1 *= 1;
-            y1 *= 1;
-            x2 *= 1;
-            y2 *= 1;
+        if (pointFirst.y() > pointSecond.y()) { // II quarter
+            pointFirstCorrected.rx() -= indentationX;
+            pointFirstCorrected.ry() -= indentationY;
+            pointSecondCorrected.rx() += indentationX;
+            pointSecondCorrected.ry() += indentationY;
+
+            arrowX1 *= -1;
+            arrowY1 *= -1;
+            arrowX2 *= -1;
+            arrowY2 *= -1;
         }
-        else {
-            x1 *= 1;
-            y1 *= -1;
-            x2 *= 1;
-            y2 *= -1;
+        else { // III quarters
+            pointFirstCorrected.rx() -= indentationX;
+            pointFirstCorrected.ry() += indentationY;
+            pointSecondCorrected.rx() += indentationX;
+            pointSecondCorrected.ry() -= indentationY;
+
+            arrowX1 *= -1;
+            arrowY1 *= 1;
+            arrowX2 *= -1;
+            arrowY2 *= 1;
         }
     }
     else {
-        if (pointFirst.y() > pointSecond.y()) {
-            x1 *= -1;
-            y1 *= 1;
-            x2 *= -1;
-            y2 *= 1;
+        if (pointFirst.y() > pointSecond.y()) { // I quarters
+            pointFirstCorrected.rx() += indentationX;
+            pointFirstCorrected.ry() -= indentationY;
+            pointSecondCorrected.rx() -= indentationX;
+            pointSecondCorrected.ry() += indentationY;
+
+            arrowX1 *= 1;
+            arrowY1 *= -1;
+            arrowX2 *= 1;
+            arrowY2 *= -1;
         }
-        else {
-            x1 *= -1;
-            y1 *= -1;
-            x2 *= -1;
-            y2 *= -1;
+        else { // IV quarters
+            pointFirstCorrected.rx() += indentationX;
+            pointFirstCorrected.ry() += indentationY;
+            pointSecondCorrected.rx() -= indentationX;
+            pointSecondCorrected.ry() -= indentationY;
+
+            arrowX1 *= 1;
+            arrowY1 *= 1;
+            arrowX2 *= 1;
+            arrowY2 *= 1;
         }
     }
 
-    painter->drawLine(pointSecond.x() + x1, pointSecond.y() + y1, pointSecond.x(), pointSecond.y());
-    painter->drawLine(pointSecond.x() + x2, pointSecond.y() + y2, pointSecond.x(), pointSecond.y());
+    painter->drawLine(pointFirstCorrected.x(), pointFirstCorrected.y(), pointSecondCorrected.x(), pointSecondCorrected.y());
+    painter->drawLine(pointFirstCorrected.x() + arrowX1, pointFirstCorrected.y() + arrowY1, pointFirstCorrected.x(), pointFirstCorrected.y());
+    painter->drawLine(pointFirstCorrected.x() + arrowX2, pointFirstCorrected.y() + arrowY2, pointFirstCorrected.x(), pointFirstCorrected.y());
 }
 
 void TEdge::MouseMoveEvent() {
