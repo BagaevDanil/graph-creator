@@ -24,6 +24,9 @@ public:
 private:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    const TVertex& FirstVertex() const;
+    const TVertex& SecondVertex() const;
+    const int& Weight() const;
 
 private:
     TVertex* _FirstVertex;

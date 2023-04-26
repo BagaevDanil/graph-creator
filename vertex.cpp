@@ -46,6 +46,9 @@ void TVertex::mouseReleaseEvent(QGraphicsSceneMouseEvent* /*event*/)
     this->setCursor(QCursor(Qt::ArrowCursor));
 }
 
+const QString& TVertex::Name() const {
+    return _Name;
+}
 
 
 

@@ -18,6 +18,7 @@ public:
 
 public:
     explicit TVertex(QString name, QObject *parent = nullptr);
+    const QString& Name() const;
     ~TVertex();
 
 protected:
