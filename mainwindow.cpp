@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include <fstream>
 #include <QVector>
 
 const int MainWindow::SCREEN_WIDTH = 600;
@@ -75,12 +74,34 @@ void MainWindow::on_pushButtonClearWorkArea_pressed()
     _Graph = nullptr;
 }
 
-QVector<QVector<double>> GetMatrixFromStream(std::ifstream& input) {
+QVector<QVector<double>> MainWindow::GetMatrixFromStream(std::ifstream& input) {
+    QVector<double> arr;
     while(!input.eof()) {
         std::string str;
         input >> str;
-        QString qStr = QString::fromStdString(str);
+
+        bool ok;
+        arr.push_back(QString::fromStdString(str).toDouble(&ok));
+
+        if (!ok) {
+            return {};
+        }
     }
+
+    int n = qSqrt(arr.size());
+    if (n*n != arr.size()) {
+        return {};
+    }
+
+    QVector<QVector<double>> matrix;
+    for (int i = 0; i < n; i++) {
+        QVector<double> row;
+        for (int j = 0; j < n; j++) {
+            row.push_back(arr[i*n + j]);
+        }
+        matrix.push_back(row);
+    }
+    return std::move(matrix);
 }
 
 void MainWindow::on_pushButtonClearWorkArea_2_clicked()
@@ -93,6 +114,27 @@ void MainWindow::on_pushButtonClearWorkArea_2_clicked()
                     );
     std::ifstream input;
     input.open(path.toStdString());
+    if (!input.is_open()) {
+        QMessageBox::warning(this, "Ошибка", "Неверный путь");
+        return;
+    }
     QVector<QVector<double>> matrix = GetMatrixFromStream(input);
+    if (matrix.empty()) {
+        QMessageBox::warning(this, "Ошибка", "Некорректный данные в файле");
+    }
+
+    for (auto& row : matrix) {
+        for (auto& num : row) {
+            qDebug() << num;
+        }
+    }
+
+    if (_Graph != nullptr) {
+        delete _Graph;
+        _Graph = nullptr;
+    }
+    _Graph = new TGraph(matrix);
+    _Graph->ArrangeCircle(RADIUS, SCREEN_WIDTH, SCREEN_HEIGHT);
+    _Graph->AddToScene(_Scene);
 }
 

@@ -11,6 +11,7 @@
 #include <vector>
 #include <QString>
 #include "graph.h"
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,7 +28,7 @@ public:
     static const int ABSENCE_BORDER_SCREEN;
 
 private:
-    TGraph* _Graph;
+    QVector<QVector<double>> GetMatrixFromStream(std::ifstream& input);
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -41,6 +42,7 @@ private slots:
     void on_pushButtonClearWorkArea_2_clicked();
 
 private:
+    TGraph* _Graph;
     Ui::MainWindow* ui;
     QGraphicsScene* _Scene;
 };
