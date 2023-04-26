@@ -20,7 +20,7 @@ TGraph::TGraph(int numVertex, int numEdge)
     }
 
     for (int i = 0; i < numVertex; ++i) {
-        _ArrVertex.push_back(new TVertex(QString::number(i + 1)));
+        _ArrVertex.push_back(new TVertex(QString::number(i)));
     }
 
     std::set<std::pair<int, int>> usedEdges;
@@ -87,13 +87,5 @@ void TGraph::ArrangeCircle(float radius, int screenWidth, int screenHeight)
         _ArrVertex[i]->setPos(x, y);
 
         angel += angelStep;
-    }
-
-    /*
-     * TODO:
-     * 1) Костыль с обновлением ребер на сцене
-     */
-    for (auto& edge : _ArrEdge) {
-        edge->setPos(edge->pos() + QPointF(0.0001, 0.0001));
     }
 }

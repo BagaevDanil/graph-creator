@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QFileDialog>
+#include <fstream>
+#include <QVector>
 
 const int MainWindow::SCREEN_WIDTH = 600;
 const int MainWindow::SCREEN_HEIGHT = 600;
 const int MainWindow::ABSENCE_BORDER_SCREEN = 30;
 const float MainWindow::RADIUS = fmin(SCREEN_HEIGHT, SCREEN_WIDTH)/2  - ABSENCE_BORDER_SCREEN;
 
+// using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     _Scene = new QGraphicsScene(this);
 
     ui->graphicsView->setScene(_Scene);
+    ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     _Scene->setSceneRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
@@ -67,5 +73,26 @@ void MainWindow::on_pushButtonClearWorkArea_pressed()
     }
     delete _Graph;
     _Graph = nullptr;
+}
+
+QVector<QVector<double>> GetMatrixFromStream(std::ifstream& input) {
+    while(!input.eof()) {
+        std::string str;
+        input >> str;
+        QString qStr = QString::fromStdString(str);
+    }
+}
+
+void MainWindow::on_pushButtonClearWorkArea_2_clicked()
+{
+    QString path = QFileDialog::getOpenFileName(
+                        this,
+                        "Open matrix",
+                        "C://",
+                        "Text file (*.txt)"
+                    );
+    std::ifstream input;
+    input.open(path.toStdString());
+    QVector<QVector<double>> matrix = GetMatrixFromStream(input);
 }
 

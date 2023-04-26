@@ -38,6 +38,8 @@ private slots:
     void on_pushButtonArrangeCircle_clicked();
     void on_pushButtonClearWorkArea_pressed();
 
+    void on_pushButtonClearWorkArea_2_clicked();
+
 private:
     Ui::MainWindow* ui;
     QGraphicsScene* _Scene;

@@ -31,7 +31,6 @@ void TVertex::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*
 
 void TVertex::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    emit MoveVertex();
     QPointF point = event->pos();
     this->setPos(mapToScene(point));
     QGraphicsItem::mouseMoveEvent(event);

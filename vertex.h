@@ -20,10 +20,6 @@ public:
     explicit TVertex(QString name, QObject *parent = nullptr);
     ~TVertex();
 
-signals:
-    void ClickVertex();
-    void MoveVertex();
-
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);

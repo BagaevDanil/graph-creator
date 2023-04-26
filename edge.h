@@ -19,7 +19,7 @@ public:
     static const int INDENTATION;
 
 public:
-    TEdge(TVertex *firstVertex, TVertex *secondVertex, QObject *parent = nullptr);
+    TEdge(TVertex *firstVertex, TVertex *secondVertex, int weight = 1, QObject *parent = nullptr);
 
 private:
     QRectF boundingRect() const;
@@ -28,9 +28,7 @@ private:
 private:
     TVertex* _FirstVertex;
     TVertex* _SecondVertex;
-
-public slots:
-    void MouseMoveEvent();
+    int _Weight;
 };
 
 #endif // TEDGE_H

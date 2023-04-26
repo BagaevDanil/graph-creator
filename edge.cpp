@@ -5,11 +5,11 @@ const int TEdge::ARROW_ANGLE = 30;
 const int TEdge::ARROW_LEN = 15;
 const int TEdge::INDENTATION = 15;
 
-TEdge::TEdge(TVertex *firstVertex, TVertex *secondVertex, QObject *parent) : QObject{parent}, _FirstVertex(firstVertex), _SecondVertex(secondVertex)
-{
-    connect(_FirstVertex, SIGNAL(MoveVertex()), this, SLOT(MouseMoveEvent()));
-    connect(_SecondVertex, SIGNAL(MoveVertex()), this, SLOT(MouseMoveEvent()));
-}
+TEdge::TEdge(TVertex *firstVertex, TVertex *secondVertex, int weight, QObject *parent)
+    : QObject{parent}
+    , _FirstVertex(firstVertex)
+    , _SecondVertex(secondVertex)
+    , _Weight(weight){}
 
 QRectF TEdge::boundingRect() const {
     int left = fmin(_FirstVertex->pos().x(), _SecondVertex->pos().x());
@@ -94,14 +94,4 @@ void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
     painter->drawLine(pointFirstCorrected.x(), pointFirstCorrected.y(), pointSecondCorrected.x(), pointSecondCorrected.y());
     painter->drawLine(pointFirstCorrected.x() + arrowX1, pointFirstCorrected.y() + arrowY1, pointFirstCorrected.x(), pointFirstCorrected.y());
     painter->drawLine(pointFirstCorrected.x() + arrowX2, pointFirstCorrected.y() + arrowY2, pointFirstCorrected.x(), pointFirstCorrected.y());
-}
-
-void TEdge::MouseMoveEvent() {
-    /*
-     * TODO:
-     * 1) Костыль на коленке.
-     *    Научиться обновлять(перерисовывать) объект вслед за вершинами.
-     */
-
-    this->setPos(this->pos().rx() + 0.0001, this->pos().ry() + 0.0001);
 }
