@@ -2,17 +2,25 @@
 #include <unordered_set>
 #include <set>
 
-TGraph::TGraph(QString /*pathMatrix*/)
+TGraph::TGraph(QVector<QVector<double>> matrix)
 {
-    /*
-     * TODO:
-     * 1) Реализовать чтение матрицы с текстового файла
-     */
+    int n = matrix.size();
+    for (int i = 0; i < n; i++) {
+        _ArrVertex.push_back(new TVertex(QString::number(i)));
+    }
+
+    for (int y = 0; y < n; y++) {
+        for (int x = 0; x < n; x++) {
+            if (matrix[y][x] > 0) {
+                _ArrEdge.push_back(new TEdge(_ArrVertex[y], _ArrVertex[x], matrix[y][x]));
+            }
+        }
+    }
 }
 
 TGraph::TGraph(int numVertex, int numEdge)
 {
-    if (numVertex < 0) {
+    if (numVertex <= 0) {
         throw std::logic_error("Incorrect number of vertices");
     }
     if (numEdge < 0 || numEdge > numVertex * (numVertex-1)) {

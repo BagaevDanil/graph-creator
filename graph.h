@@ -13,7 +13,7 @@
 class TGraph
 {
 public:
-    TGraph(QString pathMatrix);
+    TGraph(QVector<QVector<double>> matrix);
     TGraph(int numVertex, int numEdge);
     ~TGraph();
     void ArrangeCircle(float radius, int screenWidth, int screenHeight);
