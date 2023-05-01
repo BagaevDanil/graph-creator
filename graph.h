@@ -18,6 +18,7 @@ public:
     ~TGraph();
     void ArrangeCircle(float radius, int screenWidth, int screenHeight);
     void AddToScene(QGraphicsScene* scene);
+    void UseKruskal();
 
 private:
     std::vector<TVertex*> _ArrVertex;

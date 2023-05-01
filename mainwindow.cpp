@@ -138,3 +138,11 @@ void MainWindow::on_pushButtonClearWorkArea_2_clicked()
     _Graph->AddToScene(_Scene);
 }
 
+void MainWindow::on_pushButtonKruskal_clicked()
+{
+    if (_Graph == nullptr) {
+        return;
+    }
+    _Graph->UseKruskal();
+}
+

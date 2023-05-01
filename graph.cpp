@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <unordered_set>
 #include <set>
+#include <algorithms.h>
 
 TGraph::TGraph(QVector<QVector<double>> matrix)
 {
@@ -61,6 +62,22 @@ void TGraph::AddToScene(QGraphicsScene* scene) {
     for (auto& edge : _ArrEdge) {
         scene->addItem(edge);
     }
+}
+
+void TGraph::UseKruskal()
+{
+    std::set<TEdge*> newArrEdge = MyAlgorithms::algorithmKruskal(_ArrEdge);
+    std::vector<TEdge*> res;
+
+    for (auto it = _ArrEdge.begin(); it != _ArrEdge.end(); it++) {
+        if (newArrEdge.find(*it) == newArrEdge.end()) {
+            delete *it;
+            continue;
+        }
+        res.push_back(*it);
+    }
+
+    _ArrEdge = res;
 }
 
 void TGraph::ArrangeCircle(float radius, int screenWidth, int screenHeight)

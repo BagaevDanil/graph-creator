@@ -96,12 +96,12 @@ void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
     painter->drawLine(pointFirstCorrected.x() + arrowX2, pointFirstCorrected.y() + arrowY2, pointFirstCorrected.x(), pointFirstCorrected.y());
 }
 
-const TVertex& TEdge::FirstVertex() const{
-    return *_FirstVertex;
+const TVertex* TEdge::FirstVertex() const{
+    return _FirstVertex;
 }
 
-const TVertex& TEdge::SecondVertex() const {
-    return *_SecondVertex;
+const TVertex* TEdge::SecondVertex() const {
+    return _SecondVertex;
 }
 
 const int& TEdge::Weight() const {

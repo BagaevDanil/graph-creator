@@ -41,6 +41,8 @@ private slots:
 
     void on_pushButtonClearWorkArea_2_clicked();
 
+    void on_pushButtonKruskal_clicked();
+
 private:
     TGraph* _Graph;
     Ui::MainWindow* ui;
