@@ -4,6 +4,8 @@
 const int TEdge::ARROW_ANGLE = 30;
 const int TEdge::ARROW_LEN = 15;
 const int TEdge::INDENTATION = 15;
+const int TEdge::SQR_SIDE = 10;
+const int TEdge::FONT_SIZE = 9;
 
 TEdge::TEdge(TVertex *firstVertex, TVertex *secondVertex, int weight, QObject *parent)
     : QObject{parent}
@@ -94,6 +96,30 @@ void TEdge::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
     painter->drawLine(pointFirstCorrected.x(), pointFirstCorrected.y(), pointSecondCorrected.x(), pointSecondCorrected.y());
     painter->drawLine(pointFirstCorrected.x() + arrowX1, pointFirstCorrected.y() + arrowY1, pointFirstCorrected.x(), pointFirstCorrected.y());
     painter->drawLine(pointFirstCorrected.x() + arrowX2, pointFirstCorrected.y() + arrowY2, pointFirstCorrected.x(), pointFirstCorrected.y());
+
+    int midX = (pointFirstCorrected.x() + pointSecondCorrected.x()) / 2;
+    int midY = (pointFirstCorrected.y() + pointSecondCorrected.y()) / 2;
+
+    QBrush brush;
+    painter->setPen(QPen(Qt::black, 1.2));
+    brush.setColor(Qt::green);
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+
+    QPolygonF sqrPolygon;
+    sqrPolygon.append({
+                   QPointF(midX - SQR_SIDE, midY - SQR_SIDE),
+                   QPointF(midX + SQR_SIDE, midY - SQR_SIDE),
+                   QPointF(midX + SQR_SIDE, midY + SQR_SIDE),
+                   QPointF(midX - SQR_SIDE, midY + SQR_SIDE)
+    });
+    painter->drawPolygon(sqrPolygon);
+
+    painter->setFont(QFont("times", FONT_SIZE));
+    QString label = QString::number(_Weight);
+    int labelSizeX = FONT_SIZE * 4/3 * 3/5 * label.length();
+    int labelSizeY = FONT_SIZE * 4/3;
+    painter->drawText(QPointF(midX - labelSizeX/2, midY + labelSizeY/2), label);
 }
 
 const TVertex* TEdge::FirstVertex() const{

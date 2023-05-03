@@ -1,7 +1,7 @@
 #include "vertex.h"
 #include <QColor>
 
-const int TVertex::FONT_SIZE = 10;
+const int TVertex::FONT_SIZE = 11;
 const int TVertex::VERTEX_RADIUS = 30;
 
 TVertex::TVertex(QString name, QObject *parent)
@@ -15,18 +15,15 @@ QRectF TVertex::boundingRect() const {
     return _Rect;
 }
 
-void TVertex::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/) {
-    /*
-     * TODO:
-     *  1) Отцентрировать текст внутри врешины;
-     * *2) Можно сделать динамичный шрифт;
-     */
-
+void TVertex::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
+{
     painter->setBrush(QBrush(QColor(64, 169, 201)));
     painter->drawEllipse(_Rect);
+
     painter->setFont(QFont("times", FONT_SIZE));
-    // painter->drawText(QPointF((_Rect.left() + _Rect.center().x())/2, (_Rect.bottom() + _Rect.center().y())/2), "25");
-    painter->drawText(_Rect, _Name);
+    int labelSizeX = FONT_SIZE * 4/3 * 3/5 * _Name.length();
+    int labelSizeY = FONT_SIZE * 4/3;
+    painter->drawText(QPointF(0 - labelSizeX/2, 0 + labelSizeY/2), _Name);
 }
 
 void TVertex::mouseMoveEvent(QGraphicsSceneMouseEvent* event)

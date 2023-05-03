@@ -41,7 +41,7 @@ TGraph::TGraph(int numVertex, int numEdge)
             rand2 = std::rand() % _ArrVertex.size();
         }
         usedEdges.insert({rand1, rand2});
-        _ArrEdge.push_back(new TEdge(_ArrVertex[rand1], _ArrVertex[rand2]));
+        _ArrEdge.push_back(new TEdge(_ArrVertex[rand1], _ArrVertex[rand2], std::rand() % 100));
     }
 }
 

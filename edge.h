@@ -17,6 +17,8 @@ public:
     static const int ARROW_ANGLE;
     static const int ARROW_LEN;
     static const int INDENTATION;
+    static const int SQR_SIDE;
+    static const int FONT_SIZE;
 
 public:
     TEdge(TVertex *firstVertex, TVertex *secondVertex, int weight = 1, QObject *parent = nullptr);
